@@ -86,7 +86,7 @@ p {
 .hero {
   position: relative;
   min-height: 100vh;
-  padding: 24px 5vw 80px;
+  padding: 96px 5vw 80px;
   overflow-x: clip;
   overflow-y: visible;
   display: flex;
@@ -121,16 +121,18 @@ p {
 }
 
 .hero-nav {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  z-index: 60;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   width: 100%;
-  padding: 18px 0 10px;
-  background: rgba(5, 7, 6, 0.58);
+  padding: 18px 5vw 10px;
+  background: rgba(5, 7, 6, 0.7);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
