@@ -13,8 +13,8 @@ function DNAHelix() {
 
     const ctx = gsap.context(() => {
       const container = containerRef.current;
-      const width = container.clientWidth || 260;
-      const height = container.clientHeight || 620;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
       // ============================================================
       // THREE.JS SCENE SETUP
@@ -22,27 +22,35 @@ function DNAHelix() {
       const scene = new THREE.Scene();
       sceneRef.current = scene;
 
-      // Camera - orthographic for consistent 2D-like appearance
+      // Camera - orthographic, scaled for full viewport
+      const aspectRatio = width / height;
+      const viewHeight = 800;
+      const viewWidth = viewHeight * aspectRatio;
+
       const camera = new THREE.OrthographicCamera(
-        -130,
-        130,
-        310,
-        -310,
+        -viewWidth / 2,
+        viewWidth / 2,
+        viewHeight / 2,
+        -viewHeight / 2,
         0.1,
         1000
       );
-      camera.position.z = 200;
+      camera.position.z = 300;
 
       // Renderer with transparent background
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      const renderer = new THREE.WebGLRenderer({ 
+        antialias: true, 
+        alpha: true,
+        powerPreference: "high-performance"
+      });
       renderer.setSize(width, height);
       renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       rendererRef.current = renderer;
       container.appendChild(renderer.domElement);
 
       // ============================================================
-      // DNA HELIX GEOMETRY
+      // DNA HELIX GEOMETRY - SCALED FOR 4K VIEWPORT
       // ============================================================
       const helix = new THREE.Group();
       helixRef.current = helix;
@@ -50,9 +58,10 @@ function DNAHelix() {
 
       const dnaConfig = {
         turns: 4.5,
-        resolution: 120,
-        radius: 42,
-        height: 580,
+        resolution: 200,
+        radius: 120,
+        height: 1200,
+        scale: 1.5,
       };
 
       // Create strand paths
@@ -189,10 +198,18 @@ function DNAHelix() {
       // WINDOW RESIZE HANDLER
       // ============================================================
       const onWindowResize = () => {
-        if (!container) return;
-        const newWidth = container.clientWidth || 260;
-        const newHeight = container.clientHeight || 620;
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
         renderer.setSize(newWidth, newHeight);
+        
+        const newAspectRatio = newWidth / newHeight;
+        const newViewHeight = 800;
+        const newViewWidth = newViewHeight * newAspectRatio;
+        
+        camera.left = -newViewWidth / 2;
+        camera.right = newViewWidth / 2;
+        camera.top = newViewHeight / 2;
+        camera.bottom = -newViewHeight / 2;
         camera.updateProjectionMatrix();
       };
 

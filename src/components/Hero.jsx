@@ -2,7 +2,6 @@ import { useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "./Navbar";
-import DNAHelix from "./DNAHelix";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,9 +83,9 @@ function Hero() {
         },
       });
 
-      gsap.to(".molecule", {
-        scale: 1.5,
-        rotation: 90,
+      gsap.to(".dna-background", {
+        scale: 1.2,
+        opacity: 0.7,
         scrollTrigger: {
           trigger: ".hero",
           start: "top top",
@@ -124,10 +123,6 @@ function Hero() {
         </p>
 
         <a href="#innovation">Explore our research →</a>
-      </div>
-
-      <div className="molecule" aria-hidden="true">
-        <DNAHelix />
       </div>
     </section>
   );
