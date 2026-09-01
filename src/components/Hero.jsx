@@ -84,8 +84,7 @@ function Hero() {
       });
 
       gsap.to(".dna-background", {
-        scale: 1.2,
-        opacity: 0.7,
+        opacity: 0.6,
         scrollTrigger: {
           trigger: ".hero",
           start: "top top",

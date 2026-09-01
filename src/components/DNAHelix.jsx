@@ -101,10 +101,10 @@ function DNAHelix() {
         strandAPoints
       );
       const strandAMaterial = new THREE.LineBasicMaterial({
-        color: 0x74eeff,
-        linewidth: 4,
+        color: 0xff00ff,
+        linewidth: 8,
         transparent: true,
-        opacity: 0.95,
+        opacity: 1,
       });
       const strandALine = new THREE.Line(strandAGeometry, strandAMaterial);
       helix.add(strandALine);
@@ -113,10 +113,10 @@ function DNAHelix() {
         strandBPoints
       );
       const strandBMaterial = new THREE.LineBasicMaterial({
-        color: 0xc288ff,
-        linewidth: 4,
+        color: 0x00ffff,
+        linewidth: 8,
         transparent: true,
-        opacity: 0.95,
+        opacity: 1,
       });
       const strandBLine = new THREE.Line(strandBGeometry, strandBMaterial);
       helix.add(strandBLine);
@@ -124,39 +124,44 @@ function DNAHelix() {
       // ============================================================
       // BASE PAIRS - CONNECTING LINES
       // ============================================================
-      const basePairMaterial = new THREE.LineBasicMaterial({
-        color: 0x7ef5d8,
-        linewidth: 2,
-        transparent: true,
-        opacity: 0.6,
-      });
+      const colorVariation = [0xff0088, 0x00ff88, 0xffff00, 0x00ffff, 0xff00ff];
 
-      basePairLines.forEach((pair) => {
+      basePairLines.forEach((pair, idx) => {
         const pairGeometry = new THREE.BufferGeometry().setFromPoints([
           pair.start,
           pair.end,
         ]);
-        const pairLine = new THREE.Line(pairGeometry, basePairMaterial);
+        const pairMaterial = new THREE.LineBasicMaterial({
+          color: colorVariation[idx % colorVariation.length],
+          linewidth: 4,
+          transparent: true,
+          opacity: 0.8,
+        });
+        const pairLine = new THREE.Line(pairGeometry, pairMaterial);
         helix.add(pairLine);
       });
 
       // ============================================================
       // NODES - SPHERE GEOMETRY
       // ============================================================
-      const nodeGeometry = new THREE.SphereGeometry(4, 16, 16);
+      const nodeGeometry = new THREE.SphereGeometry(6, 24, 24);
       const nodeAMaterial = new THREE.MeshBasicMaterial({
-        color: 0x74eeff,
+        color: 0xff00ff,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.95,
+        emissive: 0xff00ff,
+        emissiveIntensity: 0.8,
       });
       const nodeBMaterial = new THREE.MeshBasicMaterial({
-        color: 0xc288ff,
+        color: 0x00ffff,
         transparent: true,
-        opacity: 0.85,
+        opacity: 0.95,
+        emissive: 0x00ffff,
+        emissiveIntensity: 0.8,
       });
 
       // Sample nodes from strands
-      const nodeInterval = 8;
+      const nodeInterval = 6;
       strandAPoints.forEach((point, i) => {
         if (i % nodeInterval === 0) {
           const mesh = new THREE.Mesh(nodeGeometry, nodeAMaterial);
