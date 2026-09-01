@@ -325,6 +325,23 @@ h1 {
   stroke: rgba(233, 205, 255, 0.9);
 }
 
+.dna-helix-svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.dna-strand-group {
+  transform-origin: center;
+  will-change: transform;
+}
+
+.glow-layer {
+  will-change: opacity;
+}
+
 .innovation {
   min-height: 100vh;
   padding: 160px 5vw 120px;
